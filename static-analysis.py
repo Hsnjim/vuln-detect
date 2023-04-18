@@ -20,19 +20,6 @@ for app_dir in os.listdir(web_apps_dir):
         
         filename = app_path +'/.semgrepignore'
         subprocess.run(['touch', filename])
-
-        # Vérifier si le fichier .semgrepignore existe déjà
-        # if subprocess.run(['test', '-f', filename]).returncode == 0:
-        #     print("Le fichier .semgrepignore existe déjà dans le répertoire " + app_path)
-        #     print('_______________________________________________________________________________\n\n')
-
-        # else : 
-        #     # Création du fichier .semgrepignore
-        #     subprocess.run(['touch', filename])
-        #     print(f'Le fichier .semgrepignore a été créé avec succès dans le repertoire ' + app_path)
-        #     print('_______________________________________________________________________________\n\n')
-
-
         # Commande à exécuter pour lancer Semgrep sur l'application Web
         semgrep_command = "/home/h4ck3r/.local/bin/semgrep --config=auto --severity 'ERROR' --verbose --max-target-bytes '100 MB' "+app_path
         
