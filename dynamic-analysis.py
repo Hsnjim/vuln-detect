@@ -1,59 +1,78 @@
-import time
-from zapv2 import ZAPv2
 import os
-import sys
+import time
+import subprocess
+from zapv2 import ZAPv2
+import matplotlib.pyplot as plt
+from tkinter import filedialog
+from tkinter import Tk
 
-def scan(target):
-    print(f"Scan en cours de l'application web : {target}")                                         #Le scannage avec zaproxy se fait en deux étapes : Le spidering et le active scan
-    zap.urlopen(target)                                                                             #Le spidering en fait c'est l'étape oû le zap explore tout les répertoires existants dans l'application web.
-    time.sleep(2)                                                                                   #Le active scan est l'étape du scannage proprement dit. Le scannage de tout les répertoires énumérés par le spider
-                                                                                                       
-                                                                                                    #La commande qui lance le spidering est zap.spider.scan() 
-    print("Spidering target...")                                                                    #La commande zap.spide.status() affiche en fait le pourcentage d'évolution du spider
-    spider_id = zap.spider.scan(target)                                                             #Donc tant que le statut n'est pas venu a 100%, l'opération s'arrête pas.
-    while int(zap.spider.status(spider_id)) < 100:                                                  #Le time sleep c'est pour dire au script d'attendre un peu avant de vérifier à nouveau le pourcentage de l'opération en cours
-        time.sleep(2)                                                                               #Ca permet d'éviter de surcharger l'API de Zaproxy avec des requêtes assez fréqeuntes.
+def demander_chemin_fichier(prompt, choisir_dossier=False):
+    root = Tk()
+    root.withdraw()
+    if choisir_dossier:
+        fichier_chemin = filedialog.askdirectory(title=prompt)
+    else:
+        fichier_chemin = filedialog.askopenfilename(title=prompt)
+    return fichier_chemin
+
+# Demander à l'utilisateur les informations nécessaires
+urls_file_path = demander_chemin_fichier("Veuillez sélectionner le fichier contenant les URL (ex: urls.txt) : ")
+api_key = input("Veuillez entrer la clé API de ZAP : ")
+reports_folder = demander_chemin_fichier("Veuillez sélectionner le dossier où stocker les rapports générés (ex: rapports) : ", choisir_dossier=True)
+graphs_folder = demander_chemin_fichier("Veuillez sélectionner le dossier où stocker les images des graphiques générés (ex: graphiques) : ", choisir_dossier=True)
+
+# Lire les URL d'applications à scanner à partir du fichier texte
+with open(urls_file_path, "r") as f:
+    apps = [url.strip() for url in f.readlines()]
+
+# Port utilisé par ZAP
+zap_port = 8080
+
+def scan_app(zap, app_url):                                                                        #Le scannage avec zaproxy se fait en deux étapes : Le spidering et le active scan
+    zap.urlopen(app_url)                                                                           #Le spidering en fait c'est l'étape oû le zap explore tout les répertoires existants dans l'application web.
+    time.sleep(2)                                                                                  #Le active scan est l'étape du scannage proprement dit. Le scannage de tout les répertoires énumérés par le spider
+                                                                                                   #La commande qui lance le spidering est zap.spider.scan() 
+    spider_id = zap.spider.scan(url=app_url, apikey=api_key) 
+    print(spider_id)                                      #La commande zap.spider.status() affiche en fait le pourcentage d'évolution du spider
+    while int(zap.spider.status(spider_id)) < 100:                                                          #Donc tant que le statut n'est pas venu a 100%, l'opération s'arrête pas.
+                                                                                                   #Le time sleep c'est pour dire au script d'attendre un peu avant de vérifier à nouveau le pourcentage de l'opération en cours
+        time.sleep(5)                                                                              #Ca permet d'éviter de surcharger l'API de Zaproxy avec des requêtes assez fréqeuntes.
     print("Spider completed.")
 
-
-    print("Demmarage du active scan")
-    active_scan_id = zap.ascan.scan(target)
-    while int(zap.ascan.status(active_scan_id)) < 100:  #ascan = active scan
+    asscan_id = zap.ascan.scan(url=app_url, apikey=api_key)
+    while int(zap.ascan.status(asscan_id)) < 100:
         time.sleep(5)
+    print("Asscan completed")
 
-    print("Active scan fini.") 
+def generate_report(zap, app_url):
+    report_file = "{}/{}_report.html".format(reports_folder, app_url.replace("://", "_").replace("/", "_"))
+    with open(report_file, "wb") as f:
+        f.write(zap.core.htmlreport(api_key))
 
-def generate_report(target, report_format="html"):
-    output_file = f"{target.replace('://', '_').replace('/', '_')}.{report_format}"
-    if report_format == "html":
-        with open(output_file, "wb") as f:
-            f.write(zap.core.htmlreport().encode('utf-8'))                                          #wb = write binary. IL es utilisé parce que l'encodage utf-8 converti les chaines de caractères du rapport HTML en objet bytes
-                                                                                                    #La méthode write() attend un objet bytes pour écrire dans un fichier en mode binaire.
-    elif report_format == "xml":                                                                    #Le with, garanti que le fichier sera correctement fermé après avoir terminé l'écriture du rapport
-        with open(output_file, "wb") as f:
-            f.write(zap.core.xmlreport().encode('utf-8'))
-    else:
-        print("Invalid report format")
-        sys.exit(1)
-    print(f"Report saved to {output_file}")
+def plot_alerts_by_risk(zap):
+    risk_levels = {"Informational": 0, "Low": 0, "Medium": 0, "High": 0}
+    alerts = zap.core.alerts()
 
+    for alert in alerts:
+        risk = alert.get("risk")
+        if risk in risk_levels:
+            risk_levels[risk] += 1
 
-def read_targets_from_txt(file_path):
-    with open(file_path, "r") as f:
-        targets = [line.strip() for line in f.readlines()]
-    return targets
+    plt.bar(risk_levels.keys(), risk_levels.values(), color=["blue", "green", "yellow", "red"])
+    plt.xlabel("Niveaux de risque")
+    plt.ylabel("Nombre d'alertes")
+    plt.title("Nombre d'alertes par niveau de risque")
+    plt.savefig("{}/alertes_par_niveau_de_risque.png".format(graphs_folder))
+    plt.show()
 
-
+def main():
+    zap = ZAPv2(proxies={"http": "http://localhost:{}".format(zap_port), "https": "http://localhost:{}".format(zap_port)})
+    
+    for app_url in apps:
+        print("Scannage de l'application : {}".format(app_url))
+        scan_app(zap, app_url)
+        generate_report(zap, app_url)
+        plot_alerts_by_risk(zap)
 
 if __name__ == "__main__":
-    api_key = "eav40kgfuit23effcc7ao36tl2"
-    zap = ZAPv2(apikey=api_key)
-
-    urls = input("Please put the path of your text file : ")
-
-    targets = read_targets_from_txt(urls)
-
-    for target in targets:
-        scan(target)
-        generate_report(target, report_format="html")  # nous pouvons changer le format du rapport ici ("html" ou "xml")
-        print("\n")
+    main()
