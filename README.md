@@ -39,14 +39,6 @@ Installez tkinter en utilisant le gestionnaire de paquets de votre distribution.
 
 sudo apt-get install python-tk
 
-
-### Vérification de l'installation
-
-Pour vérifier si tkinter est correctement installé sur votre système, vous pouvez exécuter le code Python suivant :
-
-```python
-import tkinter as tk
-
 _______________________________________________________________________
 
 
