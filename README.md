@@ -5,7 +5,7 @@ Ce  projet est axé sur la détection des vulnérabilités de type injection dan
 Le projet comprend deux scripts: static-analysis.py et dynamic-analysis.py. Ce fichier README.md explique comment les utiliser et donne un aperçu de leur fonctionnement.
 
 # Pré-requis
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 Cette commande est primodiale pour le bon fonctionnement du framework.
 
@@ -24,7 +24,7 @@ tkinter est généralement inclus avec Python et ne nécessite pas d'installatio
 
 Installez tkinter en utilisant le gestionnaire de paquets de votre distribution. Par exemple, pour les distributions basées sur Debian (comme Ubuntu), vous pouvez utiliser la commande suivante :
 
-sudo apt-get install python3-tk
+`sudo apt-get install python3-tk`
 
 
 ### Pour Python 2.x :
@@ -37,7 +37,7 @@ tkinter est généralement inclus avec Python et ne nécessite pas d'installatio
 
 Installez tkinter en utilisant le gestionnaire de paquets de votre distribution. Par exemple, pour les distributions basées sur Debian (comme Ubuntu), vous pouvez utiliser la commande suivante :
 
-sudo apt-get install python-tk
+`sudo apt-get install python-tk`
 
 _______________________________________________________________________
 
@@ -64,5 +64,6 @@ Le script dynamic-analysis.py utilise ZAP pour effectuer une analyse dynamique d
 5. Sélectionner le répertoire de sortie pour les images des graphiques générés
 
 ### Exemple d'exécution
-![Exemple d'exécution de dynamic-analysis.py](dynamic-analysis.png)
+![Exemple d'exécution de dynamic-analysis.py](/home/h4ck3r/Documents/thesis/code/github/vuln-detect/images/Avance_du_scan0.png) 
+![Exemple d'exécution de dynamic-analysis.py](/home/h4ck3r/Documents/thesis/code/github/vuln-detect/images/Fin_danalyse.png) 
 
