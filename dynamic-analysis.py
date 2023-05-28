@@ -64,6 +64,7 @@ def plot_alerts_by_risk(zap, app_url):
         risk = alert.get("risk")
         if risk in risk_levels:
             risk_levels[risk] += 1
+        #print (risk_levels.values())
 
     plt.bar(risk_levels.keys(), risk_levels.values(), color=["blue", "green", "yellow", "red"])
     plt.xlabel("Niveaux de risque")
@@ -71,6 +72,7 @@ def plot_alerts_by_risk(zap, app_url):
     plt.title("Nombre d'alertes par niveau de risque")
     plt.savefig("{}/{}_alertes.png".format(graphs_folder, app_url.replace("://", "_").replace("/", "_")))
     print("Graphe généré")
+
 
 def main():
     zap = ZAPv2(apikey=api_key)

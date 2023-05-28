@@ -51,7 +51,10 @@ Le script static-analysis.py utilise Semgrep pour effectuer une analyse statique
 3. Sélectionner le répertoire de sortie pour les fichiers HTML générés
 
 ### Exemple d'exécution
-![Exemple d'exécution de static-analysis.py](static-analysis.png)
+![Exemple d'exécution de static-analysis.py](./images/selection-tk-stat-1.png)
+![Exemple d'exécution de static-analysis.py](./images/selection-tk-stat-2.png)
+![Exemple d'exécution de static-analysis.py](./images/analyse-stat-1.png)
+
 
 ## dynamic-analysis.py
 Le script dynamic-analysis.py utilise ZAP pour effectuer une analyse dynamique des applications web. Il permet de scanner plusieurs applications à partir d'un fichier contenant une liste d'URL, de générer un rapport HTML pour chaque application et de générer un graphique montrant le nombre d'alertes par niveau de risque.
