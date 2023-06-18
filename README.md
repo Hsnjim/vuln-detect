@@ -1,6 +1,6 @@
 # vuln-detect
 Framework de détection des vulnérabilités de type injection dans les applications web
-Ce  projet est axé sur la détection des vulnérabilités de type injection dans une application web en pré-production ou post-production.
+Ce  projet est axé sur la détection des vulnérabilités de type injection dans une application web en production et/ou en construction.
 # Introduction
 Le projet comprend deux scripts: static-analysis.py et dynamic-analysis.py. Ce fichier README.md explique comment les utiliser et donne un aperçu de leur fonctionnement.
 
@@ -48,7 +48,8 @@ Le script static-analysis.py utilise Semgrep pour effectuer une analyse statique
 ### Instructions d'utilisation
 1. Exécuter le script avec la commande suivante: `python static-analysis.py`
 2. Sélectionner le répertoire contenant les projets à analyser
-3. Sélectionner le répertoire de sortie pour les fichiers HTML générés
+3. Sélectionner les règles d'analyse (dans le dossier recup_semgrep_rules > injection_rules )
+4. Sélectionner le répertoire de sortie pour les fichiers HTML générés
 
 ### Exemple d'exécution
 ![Exemple d'exécution de static-analysis.py](./images/selection-tk-stat-1.png)
@@ -65,6 +66,7 @@ Le script dynamic-analysis.py utilise ZAP pour effectuer une analyse dynamique d
 3. Entrer la clé API de ZAP
 4. Sélectionner le répertoire de sortie pour les fichiers HTML générés
 5. Sélectionner le répertoire de sortie pour les images des graphiques générés
+6. Choisir les scanners pour l'injection
 
 ### Exemple d'exécution
 ![Exemple d'exécution de dynamic-analysis.py](./images/selection-tk-dyna-1.png) 

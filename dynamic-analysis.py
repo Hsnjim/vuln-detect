@@ -16,8 +16,11 @@ def demander_chemin_fichier(prompt, choisir_dossier=False):
     return fichier_chemin
 
 # Demander à l'utilisateur les informations nécessaires
+print('Veuillez sélectionner le fichier contenant les URL (ex: urls.txt)\n')
 urls_file_path = demander_chemin_fichier("Veuillez sélectionner le fichier contenant les URL (ex: urls.txt) : ")
-api_key = input("Veuillez entrer la clé API de ZAP : ")
+api_key = input("Veuillez entrer la clé API de ZAP : \n")
+
+print('Veuillez sélectionner le dossier où stocker les rapports générés (ex: rapports)\n')
 reports_folder = demander_chemin_fichier("Veuillez sélectionner le dossier où stocker les rapports générés (ex: rapports) : ", choisir_dossier=True)
 graphs_folder = demander_chemin_fichier("Veuillez sélectionner le dossier où stocker les images des graphiques générés (ex: graphiques) : ", choisir_dossier=True)
 
@@ -27,6 +30,19 @@ with open(urls_file_path, "r") as f:
 
 # Port utilisé par ZAP
 zap_port = 8080
+
+def afficher_scanners(zap):
+    scanners = zap.ascan.scanners()
+    for scanner in scanners:
+        print("Nom du scanner : {}, ID du scanner : {}".format(scanner['name'], scanner['id']))
+    return [scanner['id'] for scanner in scanners]
+
+def choisir_scanners(zap, scanner_ids):
+    ids_choisis = input("Entrez les ID des scanners que vous voulez activer, séparés par des virgules : ")
+    ids_choisis = ids_choisis.split(',')
+    for id in scanner_ids:
+        if id not in ids_choisis:
+            zap.ascan.disable_scanners(id)
 
 def scan_app(zap, app_url):                                                                        
     zap.urlopen(app_url)                                                                           
@@ -76,6 +92,12 @@ def plot_alerts_by_risk(zap, app_url):
 
 def main():
     zap = ZAPv2(apikey=api_key)
+    
+    # Afficher tous les scanners disponibles
+    scanner_ids = afficher_scanners(zap)
+    
+    # Demander à l'utilisateur de choisir les scanners à activer
+    choisir_scanners(zap, scanner_ids)
     
     for app_url in apps:
         print("Scannage de l'application : {}".format(app_url))
