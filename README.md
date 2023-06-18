@@ -72,5 +72,6 @@ Le script dynamic-analysis.py utilise ZAP pour effectuer une analyse dynamique d
 ![Exemple d'exécution de dynamic-analysis.py](./images/selection-tk-dyna-1.png) 
 ![Exemple d'exécution de dynamic-analysis.py](./images/selection-tk-dyna-2.png) 
 ![Exemple d'exécution de dynamic-analysis.py](./images/analyse-dyna-1.png) 
+![Exemple d'exécution de dynamic-analysis.py](./images/analyse-dyna-2.png) 
 ![Exemple d'exécution finale de dynamic-analysis.py](./images/scan.png) 
 
