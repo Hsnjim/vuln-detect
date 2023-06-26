@@ -1,41 +1,41 @@
 # vuln-detect
-Framework de détection des vulnérabilités de type injection dans les applications web
-Ce  projet est axé sur la détection des vulnérabilités de type injection dans une application web en production et/ou en construction.
+Web application injection vulnerability detection framework
+This project focuses on detecting injection type vulnerabilities in web applications, whether in production or under development.
 # Introduction
-Le projet comprend deux scripts: static-analysis.py et dynamic-analysis.py. Ce fichier README.md explique comment les utiliser et donne un aperçu de leur fonctionnement.
+The project includes two scripts: static-analysis.py and dynamic-analysis.py. This README.md file explains how to use them and provides an overview of how they work.
 
-# Pré-requis
+# Prerequisites
 `pip install -r requirements.txt`
 
-Cette commande est primodiale pour le bon fonctionnement du framework.
+This command is essential for the proper functioning of the framework.
 
 
-## Installation de tkinter
+## Installation of tkinter
 
-Si vous rencontrez des problèmes pour exécuter l'un de ces scripts en raison de l'absence de tkinter, vous pouvez installer le module en suivant les instructions ci-dessous :
+If you're having problems running any of these scripts due to a lack of tkinter, you can install the module by following the instructions below:
 
-### Pour Python 3.x :
 
-#### Sous Windows et macOS :
+### For Python 3.x :
 
-tkinter est généralement inclus avec Python et ne nécessite pas d'installation séparée.
+#### On Windows and macOS :
 
-#### Sous Linux :
+tkinter is usually included with Python and does not require a separate installation.
+#### On Linux :
 
-Installez tkinter en utilisant le gestionnaire de paquets de votre distribution. Par exemple, pour les distributions basées sur Debian (comme Ubuntu), vous pouvez utiliser la commande suivante :
+Install tkinter using your distribution's package manager. For example, for Debian-based distributions (like Ubuntu), you can use the following command:
 
 `sudo apt-get install python3-tk`
 
 
-### Pour Python 2.x :
+### For Python 2.x :
 
-#### Sous Windows et macOS :
+#### On Windows and macOS :
 
-tkinter est généralement inclus avec Python et ne nécessite pas d'installation séparée.
+tkinter is usually included with Python and does not require a separate installation.
 
-#### Sous Linux :
+#### On Linux :
 
-Installez tkinter en utilisant le gestionnaire de paquets de votre distribution. Par exemple, pour les distributions basées sur Debian (comme Ubuntu), vous pouvez utiliser la commande suivante :
+Install tkinter using your distribution's package manager. For example, for Debian-based distributions (like Ubuntu), you can use the following command:
 
 `sudo apt-get install python-tk`
 
@@ -43,35 +43,35 @@ _______________________________________________________________________
 
 
 ## static-analysis.py
-Le script static-analysis.py utilise Semgrep pour effectuer une analyse statique des projets. Il permet d'analyser des dossiers contenant des projets et de générer un rapport HTML contenant toutes les erreurs détectées.
+The static-analysis.py script uses Semgrep to perform static analysis of projects. It allows you to analyze folders containing projects and generate an detailled HTML report listing all injection detected errors.
 
-### Instructions d'utilisation
-1. Exécuter le script avec la commande suivante: `python static-analysis.py`
-2. Sélectionner le répertoire contenant les projets à analyser
-3. Sélectionner les règles d'analyse (dans le dossier recup_semgrep_rules > injection_rules )
-4. Sélectionner le répertoire de sortie pour les fichiers HTML générés
+### Instructions for use
+1. Run the script with the following command: `python static-analysis.py`
+2. Select the directory containing the projects to analyze
+3. Select the analysis rules (in the recup_semgrep_rules > injection_rules folder)
+4. Select the output directory for the generated HTML files
 
-### Exemple d'exécution
-![Exemple d'exécution de static-analysis.py](./images/selection-tk-stat-1.png)
-![Exemple d'exécution de static-analysis.py](./images/selection-tk-stat-2.png)
-![Exemple d'exécution de static-analysis.py](./images/analyse-stat-1.png)
+### Example of execution
+![Example of static-analysis.py execution](./images/selection-tk-stat-1.png)
+![Example of static-analysis.py execution](./images/selection-tk-stat-2.png)
+![Example of static-analysis.py execution](./images/analyse-stat-1.png)
 
 
 ## dynamic-analysis.py
-Le script dynamic-analysis.py utilise ZAP pour effectuer une analyse dynamique des applications web. Il permet de scanner plusieurs applications à partir d'un fichier contenant une liste d'URL, de générer un rapport HTML pour chaque application et de générer un graphique montrant le nombre d'alertes par niveau de risque.
+The dynamic-analysis.py script uses ZAP to perform a dynamic analysis of web applications. It allows you to scan multiple applications from a file containing a list of URLs, generate an HTML report for each application, and generate a chart showing the number of alerts by risk level.
 
-### Instructions d'utilisation
-1. Exécuter le script avec la commande suivante: `python dynamic-analysis.py`
-2. Sélectionner le fichier contenant les URL des applications à scanner
-3. Entrer la clé API de ZAP
-4. Sélectionner le répertoire de sortie pour les fichiers HTML générés
-5. Sélectionner le répertoire de sortie pour les images des graphiques générés
-6. Choisir les scanners pour l'injection
+### Instructions for use
+1. Run the script with the following command: `python dynamic-analysis.py`
+2. Select the file containing the URLs of the applications to scan
+3. Enter the ZAP API key
+4. Select the output directory for the generated HTML files
+5. Select the output directory for the generated chart images
+6. Choose the scanners for injection
 
-### Exemple d'exécution
-![Exemple d'exécution de dynamic-analysis.py](./images/selection-tk-dyna-1.png) 
-![Exemple d'exécution de dynamic-analysis.py](./images/selection-tk-dyna-2.png) 
-![Exemple d'exécution de dynamic-analysis.py](./images/analyse-dyna-1.png) 
-![Exemple d'exécution de dynamic-analysis.py](./images/analyse-dyna-2.png) 
-![Exemple d'exécution finale de dynamic-analysis.py](./images/scan.png) 
+### Example of execution
+![Example of dynamic-analysis.py execution](./images/selection-tk-dyna-1.png) 
+![Example of dynamic-analysis.py execution](./images/selection-tk-dyna-2.png) 
+![Example of dynamic-analysis.py execution](./images/analyse-dyna-1.png) 
+![Example of execution dynamic-analysis.py execution](./images/analyse-dyna-2.png) 
+![Final example of dynamic-analysis.py execution](./images/scan.png) 
 
